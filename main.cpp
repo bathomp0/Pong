@@ -49,8 +49,8 @@ int main()
     // sf::String textString = "Test"; // Create an sf::String
 
     sf::Text my_text(font, sf::String("Test")); // Correct: Creating a temporary sf::String
-    sf::Text homeStart(font, sf::String("Start"), 50); // Home page's Start & Quit
-    sf::Text homeQuit(font, sf::String("Quit"), 50);    
+    sf::Text homeStart(font, sf::String("Start"), 50); // Home page's Start button
+    sf::Text homeQuit(font, sf::String("Quit"), 50); // Home page's Quit button
 
     // my_text.setFont(font);
     my_text.setFillColor(sf::Color::White);
@@ -96,8 +96,7 @@ int main()
             window.draw(ball);
             window.draw(my_text);
         }
-        // if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && sf::Mouse::getPosition(window).x >= startPos.x && sf::Mouse::getPosition(window).x < startPos.x + homeStart.getLocalBounds().position.length() && sf::Mouse::getPosition(window).y >= startPos.y && sf::Mouse::getPosition(window).y < startPos.y + 50 ){
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && homeStart.getGlobalBounds().contains(window.mapPixelToCoords({sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y}))) {
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && sf::Mouse::getPosition(window).x >= startPos.x && sf::Mouse::getPosition(window).x < startPos.x + homeStart.getLocalBounds().position.length() && sf::Mouse::getPosition(window).y >= startPos.y && sf::Mouse::getPosition(window).y < startPos.y + 50 ){
             
             start = true;
         }
@@ -111,8 +110,8 @@ int main()
         window.draw(homeQuit);
         }
 
-        // std::cout << "Mouse X Coordinates" << sf::Mouse::getPosition(window).x << std::endl << "Mouse Y Coordinates" << sf::Mouse::getPosition(window).y << std::endl;
-        // std::cout << "Home Start Global" << homeStart.getGlobalBounds().contains(window.mapPixelToCoords({event.mouseButton.x, event.mouseButton.y})) << std::endl << "Home Start Local" << homeStart.getLocalBounds().position.length() << std::endl;
+        std::cout << "Mouse X Coordinates" << sf::Mouse::getPosition(window).x << std::endl << "Mouse Y Coordinates" << sf::Mouse::getPosition(window).y << std::endl;
+        std::cout << "Home Start Global" << homeStart.getGlobalBounds().contains(window.mapPixelToCoords({event.mouseButton.x, event.mouseButton.y})) << std::endl << "Home Start Local" << homeStart.getLocalBounds().position.length() << std::endl;
         window.display();
     }
 }
