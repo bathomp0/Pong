@@ -14,36 +14,38 @@ int main()
     sf::RenderWindow window(sf::VideoMode({xWindow, yWindow}), "Pong");
     window.setFramerateLimit(60);
 
-    sf::RectangleShape rect;
+    sf::RectangleShape pong1;
     sf::RectangleShape opp;
     sf::RectangleShape ball;
     
-    sf::Vector2f rectPos(45, window.getSize().y/2);
+    sf::Vector2f pong1Pos(45, window.getSize().y/2);
     sf::Vector2f oppPos(window.getSize().x - 45, window.getSize().y/2);
-    sf::Vector2f ballPos(window.getSize().x/2 , window.getSize().y/2 + (ySize/2)); // Added the half so it's in the vertical  middle of the rect
+    sf::Vector2f ballPos(window.getSize().x/2 , window.getSize().y/2 + (ySize/2)); // Added the half so it's in the vertical  middle of the pong1
     sf::Vector2f textPos(window.getSize().x/2 , 40);
     sf::Vector2f startPos(window.getSize().x/2 -100 , window.getSize().y/2);
     sf::Vector2f quitPos(window.getSize().x/2 +100 , window.getSize().y/2);
 
-    rect.setPosition(rectPos);
+    pong1.setPosition(pong1Pos);
     opp.setPosition(oppPos);
     ball.setPosition(ballPos);
 
-    rect.setFillColor(sf::Color::White);
+    pong1.setFillColor(sf::Color::White);
     opp.setFillColor(sf::Color::White);
     ball.setFillColor(sf::Color::White);
     
-    rect.setSize(sf::Vector2f(xSize, ySize));
+    pong1.setSize(sf::Vector2f(xSize, ySize));
     opp.setSize(sf::Vector2f(xSize, ySize));
     ball.setSize(sf::Vector2f(xSizeBall, ySizeBall));
 
+    sf::FloatRect ballBounds = ball.getGlobalBounds();
+    sf::FloatRect pong1Bounds = pong1.getGlobalBounds();
 
     float xVel = 3.5;
     float yVel = 3.5;
     sf::Font font;
     font.openFromFile("Pong\\Font\\Roboto-Black.ttf");
 
-    sf::Text my_text(font, sf::String("Test")); // Correct: Creating a temporary sf::String
+    sf::Text my_text(font, sf::String("Test")); 
     sf::Text homeStart(font, sf::String("Start"), 50); // Home page's Start & Quit
     sf::Text homeQuit(font, sf::String("Quit"), 50);    
 
@@ -59,13 +61,13 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) window.close();
         }
         if (start){
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) && rectPos.y > 0)
-                rectPos.y -= 5;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) && pong1Pos.y > 0)
+                pong1Pos.y -= 5;
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) && oppPos.y > 0)
                 oppPos.y -= 5;            
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && rectPos.y <  window.getSize().y - ySize){
-                rectPos.y += 5;
-                std::cout << rect.getPosition().y;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && pong1Pos.y <  window.getSize().y - ySize){
+                pong1Pos.y += 5;
+                std::cout << pong1.getPosition().y;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && oppPos.y <  window.getSize().y - ySize){
                 oppPos.y += 5;
@@ -74,15 +76,15 @@ int main()
             if (ballPos.x <= 0 || ballPos.x >= window.getSize().x - xSizeBall) xVel *= -1;
             if (ballPos.y <= 0 || ballPos.y >= window.getSize().y - ySizeBall ) yVel *= -1;
             std::cout << "ball position " << ball.getPosition().x << std::endl;
-            std::cout << rect.getPosition().x + xSize << std::endl;
+            std::cout << pong1.getPosition().x + xSize << std::endl;
 
-            if (ball.getPosition().x > rect.getPosition().x + xSize - 2
-            && ball.getPosition().x < rect.getPosition().x + xSize + 2
-            && ball.getPosition().y > rect.getPosition().y 
-            && ball.getPosition().y < rect.getPosition().y + ySize ){
+            if (ball.getPosition().x > pong1.getPosition().x + xSize - 2
+            && ball.getPosition().x < pong1.getPosition().x + xSize + 2
+            && ball.getPosition().y > pong1.getPosition().y 
+            && ball.getPosition().y < pong1.getPosition().y + ySize ){
                 xVel *= -1; }
                 // std::cout << "Y Ball Position " << ball.getPosition().y << std::endl << "Paddle Position Start: " << rect.getPosition().y << "Paddle Position End: " << rect.getPosition().y + ySize << std::endl; 
-            if (ball.getPosition().x == rect.getPosition().x + xSize ){
+            if (ball.getPosition().x == pong1.getPosition().x + xSize ){
                 std::cout << "X position ball True";
             }
             if (ballPos.x + xSizeBall == opp.getPosition().x && ballPos.y > opp.getPosition().y && ballPos.y < opp.getPosition().y +ySize)
@@ -90,13 +92,13 @@ int main()
             ballPos.x += xVel;
             ballPos.y += yVel;
             ball.setPosition(ballPos);
-            rect.setPosition(rectPos);
+            pong1.setPosition(pong1Pos);
             opp.setPosition(oppPos);
           
             my_text.setPosition(textPos);
 
             window.clear();
-            window.draw(rect);
+            window.draw(pong1);
             window.draw(opp);
             window.draw(ball);
             window.draw(my_text);
