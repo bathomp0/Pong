@@ -3,13 +3,16 @@
 
 int main()
 {
+
+    unsigned int xWindow = 720;
+    unsigned int yWindow = 1280;    
     unsigned int xSize = 20;
     unsigned int ySize = 150;
     unsigned int xSizeBall = 20;
     unsigned int ySizeBall = 20;
+    unsigned int p1Points = 0;
+    unsigned int p2Points = 0;
 
-    unsigned int xWindow = 720;
-    unsigned int yWindow = 1280;
 
     sf::RenderWindow window(sf::VideoMode({xWindow, yWindow}), "Pong");
     window.setFramerateLimit(60);
@@ -24,6 +27,8 @@ int main()
     sf::Vector2f textPos(window.getSize().x/2 , 40);
     sf::Vector2f startPos(window.getSize().x/2 -100 , window.getSize().y/2);
     sf::Vector2f quitPos(window.getSize().x/2 +100 , window.getSize().y/2);
+    sf::Vector2f p1ScorePos(50 , 40);  // 50 pixels from left end
+    sf::Vector2f p2ScorePos(window.getSize().x - 50, 40); // 50 pixels from right end
 
     pong1.setPosition(pong1Pos);
     opp.setPosition(oppPos);
@@ -37,9 +42,6 @@ int main()
     opp.setSize(sf::Vector2f(xSize, ySize));
     ball.setSize(sf::Vector2f(xSizeBall, ySizeBall));
 
-    sf::FloatRect ballBounds = ball.getGlobalBounds();
-    sf::FloatRect pong1Bounds = pong1.getGlobalBounds();
-
     float xVel = 3.5;
     float yVel = 3.5;
     sf::Font font;
@@ -47,7 +49,8 @@ int main()
 
     sf::Text my_text(font, sf::String("Test")); 
     sf::Text homeStart(font, sf::String("Start"), 50); // Home page's Start & Quit
-    sf::Text homeQuit(font, sf::String("Quit"), 50);    
+    sf::Text homeQuit(font, sf::String("Quit"), 50);
+
 
     // my_text.setFont(font);
     my_text.setFillColor(sf::Color::White);
@@ -67,28 +70,27 @@ int main()
                 oppPos.y -= 5;            
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && pong1Pos.y <  window.getSize().y - ySize){
                 pong1Pos.y += 5;
-                std::cout << pong1.getPosition().y;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && oppPos.y <  window.getSize().y - ySize){
                 oppPos.y += 5;
-                std::cout << opp.getPosition().y;
             }        
             if (ballPos.x <= 0 || ballPos.x >= window.getSize().x - xSizeBall) xVel *= -1;
             if (ballPos.y <= 0 || ballPos.y >= window.getSize().y - ySizeBall ) yVel *= -1;
-            std::cout << "ball position " << ball.getPosition().x << std::endl;
-            std::cout << pong1.getPosition().x + xSize << std::endl;
-
-            if (ball.getPosition().x > pong1.getPosition().x + xSize - 2
-            && ball.getPosition().x < pong1.getPosition().x + xSize + 2
-            && ball.getPosition().y > pong1.getPosition().y 
-            && ball.getPosition().y < pong1.getPosition().y + ySize ){
-                xVel *= -1; }
-                // std::cout << "Y Ball Position " << ball.getPosition().y << std::endl << "Paddle Position Start: " << rect.getPosition().y << "Paddle Position End: " << rect.getPosition().y + ySize << std::endl; 
-            if (ball.getPosition().x == pong1.getPosition().x + xSize ){
-                std::cout << "X position ball True";
+            if (ballPos.x <= 0) {
+                p2Points++;
             }
-            if (ballPos.x + xSizeBall == opp.getPosition().x && ballPos.y > opp.getPosition().y && ballPos.y < opp.getPosition().y +ySize)
-                xVel *= -1;                  
+            if (ballPos.x >= window.getSize().x - xSizeBall) {
+                p1Points++;
+            }
+            sf::Text p1Score(font, sf::String(std::to_string(p1Points)), 50);
+            sf::Text p2Score(font, sf::String(std::to_string(p2Points)), 50);
+
+            if (ball.getGlobalBounds().findIntersection(pong1.getGlobalBounds())) { // Collision for P1
+                xVel *= -1; 
+            }
+            else if (ball.getGlobalBounds().findIntersection(opp.getGlobalBounds())) { // Collision for P2
+                xVel *= -1; 
+            }    
             ballPos.x += xVel;
             ballPos.y += yVel;
             ball.setPosition(ballPos);
@@ -96,12 +98,17 @@ int main()
             opp.setPosition(oppPos);
           
             my_text.setPosition(textPos);
+            p1Score.setPosition(p1ScorePos);
+            p2Score.setPosition(p2ScorePos);
+
 
             window.clear();
             window.draw(pong1);
             window.draw(opp);
             window.draw(ball);
             window.draw(my_text);
+            window.draw(p1Score);
+            window.draw(p2Score);
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && homeStart.getGlobalBounds().contains(window.mapPixelToCoords({sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y}))) {
             
