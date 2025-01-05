@@ -136,13 +136,7 @@ int main()
                     }
                     else if (ballPos.y <= 0){
                         yVel *= -1;
-                    }      
-                    }      
-                    std::cout << ballPos.y << std::endl;               
-                    
                     }                          
-                    std::cout << ballPos.y << std::endl;               
-                    
                     my_text.setPosition(textPos);  // TODO: Dupllicate, need to clean up
                     p1Score.setPosition(p1ScorePos);
                     p2Score.setPosition(p2ScorePos);
@@ -164,8 +158,12 @@ int main()
                 
                 case PointScored:
                     std::cout << gameState;
-                    ballPos = ballPosReset;
-                    ball.setPosition(ballPosReset);
+                    ballPos = ballPosReset;  // Could also set this at the end of Playing case
+                    pong1Pos = pong1PosReset;
+                    oppPos = oppPosReset;
+                    ball.setPosition(ballPos);
+                    pong1.setPosition(pong1Pos);
+                    opp.setPosition(oppPos);
                     // pauseContinue.setPosition(textPauseContinuePos);
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)){
                         gameState = Playing;
