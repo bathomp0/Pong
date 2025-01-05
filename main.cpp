@@ -25,6 +25,8 @@ int main()
     
     sf::Vector2f pong1Pos(45, window.getSize().y/2);
     sf::Vector2f oppPos(window.getSize().x - 45, window.getSize().y/2);
+    sf::Vector2f pong1PosReset(45, window.getSize().y/2);
+    sf::Vector2f oppPosReset(window.getSize().x - 45, window.getSize().y/2);    
     sf::Vector2f ballPos(window.getSize().x/2 , window.getSize().y/2 + (ySize/2)); // Added the half so it's in the vertical  middle of the pong1
     sf::Vector2f ballPosReset(window.getSize().x/2 , window.getSize().y/2 + (ySize/2)); // Added the half so it's in the vertical  middle of the pong1    
     sf::Vector2f textPos(window.getSize().x/2 , 40);
@@ -129,6 +131,17 @@ int main()
                         p1Points++;
                         gameState = PointScored;
                     }
+                    else if (ballPos.y >= window.getSize().y - ySizeBall){  // Collision detection for top & bottom
+                        yVel *= -1;
+                    }
+                    else if (ballPos.y <= 0){
+                        yVel *= -1;
+                    }      
+                    }      
+                    std::cout << ballPos.y << std::endl;               
+                    
+                    }                          
+                    std::cout << ballPos.y << std::endl;               
                     
                     my_text.setPosition(textPos);  // TODO: Dupllicate, need to clean up
                     p1Score.setPosition(p1ScorePos);
