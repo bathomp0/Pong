@@ -65,10 +65,7 @@ int main()
     bool active = true;
 
     pong1.setPosition(pong1Pos);
-    opp.setPosition(oppPos);
-
-    sf::Text p1Score(font, sf::String(std::to_string(p1Points)), 50);
-    sf::Text p2Score(font, sf::String(std::to_string(p2Points)), 50);    
+    opp.setPosition(oppPos);  
 
     while (window.isOpen())
     {
@@ -77,11 +74,12 @@ int main()
             if (event->is<sf::Event::Closed>())
                 window.close();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) window.close();
-
         }
+        sf::Text p1Score(font, sf::String(std::to_string(p1Points)), 50);
+        sf::Text p2Score(font, sf::String(std::to_string(p2Points)), 50);         
             switch (gameState) {
                 case Title:
-                    std::cout << gameState;
+                    // std::cout << gameState;
                     homeStart.setPosition(startPos);
                     homeQuit.setPosition(quitPos);
                     window.draw(homeStart);
@@ -97,10 +95,10 @@ int main()
 
                 case Playing:
 
-                    std::cout << gameState;
+                    // std::cout << gameState;
                     my_text.setPosition(textPos);
-                    p1Score.setPosition(p1ScorePos);
-                    p2Score.setPosition(p2ScorePos);
+                    // p1Score.setPosition(p1ScorePos);
+                    // p2Score.setPosition(p2ScorePos);
 
                     ballPos.x += xVel;
                     ballPos.y += yVel;
@@ -125,13 +123,17 @@ int main()
                     }
                     if (ballPos.x <= 0) {
                         p2Points++;
+                        // std::cout << "POINTS: " << p2Points << std::endl;
                         gameState = PointScored;
+
                     }
                     else if (ballPos.x >= window.getSize().x - xSizeBall){
                         p1Points++;
+                                                // std::cout << "POINTS: " << p1Points << std::endl;
+
                         gameState = PointScored;
                     }
-                    else if (ballPos.y >= window.getSize().y - ySizeBall){  // Collision detection for top & bottom
+                    else if (ballPos.y >= window.getSize().y - ySizeBall){  // Collision detection for top & bottom of window
                         yVel *= -1;
                     }
                     else if (ballPos.y <= 0){
@@ -143,7 +145,8 @@ int main()
                     pong1.setPosition(pong1Pos);
                     opp.setPosition(oppPos);                    
 
-
+                    std::cout << p1Score.getString().toAnsiString() << std::endl;
+                    std::cout << p1Points << std::endl;
                     window.clear();
                     window.draw(pong1);
                     window.draw(opp);
@@ -152,12 +155,12 @@ int main()
                     window.draw(p1Score);
                     window.draw(p2Score);
                     
-                    
-                    
                     break;
                 
                 case PointScored:
-                    std::cout << gameState;
+                                    std::cout << p1Score.getString().toAnsiString() << std::endl;
+
+                    // std::cout << gameState;
                     ballPos = ballPosReset;  // Could also set this at the end of Playing case
                     pong1Pos = pong1PosReset;
                     oppPos = oppPosReset;
@@ -177,61 +180,11 @@ int main()
                     window.draw(p2Score);
                     window.draw(pauseContinue);
                     break;
-
-
-
-
-
-
-        // if (start){
-        //     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) && pong1Pos.y > 0)
-        //         pong1Pos.y -= 5;
-        //     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) && oppPos.y > 0)
-        //         oppPos.y -= 5;            
-        //     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && pong1Pos.y <  window.getSize().y - ySize){
-        //         pong1Pos.y += 5;
-        //     }
-        //     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && oppPos.y <  window.getSize().y - ySize){
-        //         oppPos.y += 5;
-        //     }
-              
-            
-            // if (ballPos.x <= 0) {
-            //     active = false; // ensures that it stops normal game logic from continuing
-            //     std::cout << active;
-            //     p2Points++;
-            //     ball.setPosition(ballPosReset);
-            //     // window.draw(ball);
-            // }
-            // if (ballPos.x >= window.getSize().x - xSizeBall) {
-            //     active = false; 
-            //     std::cout << active;
-            //     p1Points++;
-            //     ball.setPosition(ballPosReset);
-            //     // window.draw(ball);
-            // }
-
-            // sf::Text p1Score(font, sf::String(std::to_string(p1Points)), 50);
-            // sf::Text p2Score(font, sf::String(std::to_string(p2Points)), 50);
-
-            // if (ball.getGlobalBounds().findIntersection(pong1.getGlobalBounds())) { // Collision for P1
-            //     xVel *= -1; 
-            // }
-            // else if (ball.getGlobalBounds().findIntersection(opp.getGlobalBounds())) { // Collision for P2
-            //     xVel *= -1; 
-            // }    
-            
-            // if (active) {
-            //     ballPos.x += xVel;
-            //     ballPos.y += yVel;
-            //     ball.setPosition(ballPos);
-            // }
             
             
             pong1.setPosition(pong1Pos);
             opp.setPosition(oppPos);
 
-            
             my_text.setPosition(textPos);
             p1Score.setPosition(p1ScorePos);
             p2Score.setPosition(p2ScorePos);
