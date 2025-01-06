@@ -57,7 +57,8 @@ int main()
     sf::Text homeStart(font, sf::String("Start"), 50); // Home page's Start & Quit
     sf::Text homeQuit(font, sf::String("Quit"), 50);  
     sf::Text pauseContinue(font, sf::String("Press Spacebar to continue"), 50);  // Text Object: Asks user to press Spacebar to continue
-
+    sf::Text p1Score(font, sf::String(std::to_string(p1Points)), 50);
+    sf::Text p2Score(font, sf::String(std::to_string(p2Points)), 50); 
 
     // my_text.setFont(font);
     my_text.setFillColor(sf::Color::White);
@@ -75,8 +76,7 @@ int main()
                 window.close();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) window.close();
         }
-        sf::Text p1Score(font, sf::String(std::to_string(p1Points)), 50);
-        sf::Text p2Score(font, sf::String(std::to_string(p2Points)), 50);         
+        
             switch (gameState) {
                 case Title:
                     // std::cout << gameState;
@@ -121,11 +121,13 @@ int main()
                     }
                     if (ballPos.x <= 0) {
                         p2Points++;
+                        p2Score.setString(std::to_string(p2Points));
                         gameState = PointScored;
 
                     }
                     else if (ballPos.x >= window.getSize().x - xSizeBall){
                         p1Points++;
+                        p1Score.setString(std::to_string(p1Points));
                         gameState = PointScored;
                     }
                     else if (ballPos.y >= window.getSize().y - ySizeBall){  // Collision detection for top & bottom of window
@@ -140,8 +142,6 @@ int main()
                     pong1.setPosition(pong1Pos);
                     opp.setPosition(oppPos);                    
 
-                    std::cout << p1Score.getString().toAnsiString() << std::endl;
-                    std::cout << p1Points << std::endl;
                     window.clear();
                     window.draw(pong1);
                     window.draw(opp);
@@ -153,7 +153,6 @@ int main()
                     break;
                 
                 case PointScored:
-                                    std::cout << p1Score.getString().toAnsiString() << std::endl;
 
                     // std::cout << gameState;
                     ballPos = ballPosReset;  // Could also set this at the end of Playing case
