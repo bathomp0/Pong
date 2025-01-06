@@ -56,7 +56,7 @@ int main()
     sf::Text my_text(font, sf::String("Test")); 
     sf::Text homeStart(font, sf::String("Start"), 50); // Home page's Start & Quit
     sf::Text homeQuit(font, sf::String("Quit"), 50);  
-    sf::Text pauseContinue(font, sf::String("Press Spacebar to continue"), 50);  
+    sf::Text pauseContinue(font, sf::String("Press Spacebar to continue"), 50);  // Text Object: Asks user to press Spacebar to continue
 
 
     // my_text.setFont(font);
@@ -95,10 +95,8 @@ int main()
 
                 case Playing:
 
-                    // std::cout << gameState;
                     my_text.setPosition(textPos);
-                    // p1Score.setPosition(p1ScorePos);
-                    // p2Score.setPosition(p2ScorePos);
+        
 
                     ballPos.x += xVel;
                     ballPos.y += yVel;
@@ -123,14 +121,11 @@ int main()
                     }
                     if (ballPos.x <= 0) {
                         p2Points++;
-                        // std::cout << "POINTS: " << p2Points << std::endl;
                         gameState = PointScored;
 
                     }
                     else if (ballPos.x >= window.getSize().x - xSizeBall){
                         p1Points++;
-                                                // std::cout << "POINTS: " << p1Points << std::endl;
-
                         gameState = PointScored;
                     }
                     else if (ballPos.y >= window.getSize().y - ySizeBall){  // Collision detection for top & bottom of window
@@ -167,7 +162,6 @@ int main()
                     ball.setPosition(ballPos);
                     pong1.setPosition(pong1Pos);
                     opp.setPosition(oppPos);
-                    // pauseContinue.setPosition(textPauseContinuePos);
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)){
                         gameState = Playing;
                     }
